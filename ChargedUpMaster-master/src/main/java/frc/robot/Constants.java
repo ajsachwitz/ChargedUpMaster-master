@@ -56,6 +56,11 @@ public final class Constants {
                 public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
                 public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
+                public static final double frontLeftAbsoluteEncoderOffset = 0;
+                public static final double frontRightAbsoluteEncoderOffset = 0;
+                public static final double rearRightAbsoluteEncoderOffset = 0;
+                public static final double rearLeftAbsoluteEncoderOffset = 0;
+
                 public static final double cameraToFrontEdgeDistanceMeters = Units.inchesToMeters(7);
 
         }
