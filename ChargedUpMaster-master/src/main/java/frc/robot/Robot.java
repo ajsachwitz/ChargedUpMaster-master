@@ -82,15 +82,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_robotContainer.getSwerveSubsytem().getNavX().reset();
-    m_robotContainer.getSwerveSubsytem().getOdometry().resetPosition(new Rotation2d(),
-        m_robotContainer.getSwerveSubsytem().getModulePositions(), new Pose2d());
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
   }
 
   /** This function is called periodically during autonomous. */

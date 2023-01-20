@@ -100,7 +100,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-    // zeroGyro.whenPressed(new InstantCommand(() -> swerveBase.getNavX().reset()));
+    zeroGyro.whenPressed(new InstantCommand(() -> swerveBase.zeroHeading()));
     //zeroGyro.onTrue(new InstantCommand(() -> swerveBase.getNavX().reset()));
 
     // followTag.whenPressed(new SequentialChaseTagCmd(swerveBase, limelight));

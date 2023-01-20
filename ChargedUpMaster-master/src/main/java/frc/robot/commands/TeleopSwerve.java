@@ -4,6 +4,8 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.SwerveBase;
@@ -48,8 +50,7 @@ public class TeleopSwerve extends CommandBase {
     this.yLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
     this.turningLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
 
-    addRequirements(subsystem);
-
+    addRequirements(subsystem); 
   }
 
   @Override
@@ -77,12 +78,29 @@ public class TeleopSwerve extends CommandBase {
     rot = turningLimiter.calculate(rot)
         * Swerve.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-    drive.drive(
-        -fwdX,
-        -fwdY,
-        -rot,
-        fieldOrientedFunction.get());
+    // 4. Construct Desored Chassis Speeds
+    ChassisSpeeds chassisSpeeds;
+    if(fieldOrientedFunction.get()){
+      //relative to field
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fwdX,fwdY,rot,drive.getRotation2d());
+    } else {
+      //relative to robot
+      chassisSpeeds = new ChassisSpeeds(fwdX,fwdY,rot);
+    }
+
+    // 5. Convert Chassis speeds to individual module states
+    SwerveModuleState[] moduleStates = Swerve.kinematics.toSwerveModuleStates(chassisSpeeds);
+    drive.setModuleState(moduleStates);
+  }
+  @Override
+  public void end(boolean interupted){
+    drive.stopModules();
+  }
+
+  @Override
+  public boolean isFinished(){
+    return false;
+    }
 
   }
 
-}
